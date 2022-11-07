@@ -1,0 +1,5 @@
+config SHIELD_SLANT_LEFT
+    def_bool $(shields_list_contains,slant_left)
+
+config SHIELD_SLANT_RIGHT
+    def_bool $(shields_list_contains,slant_right)

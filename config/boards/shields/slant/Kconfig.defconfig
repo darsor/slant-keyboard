@@ -1,0 +1,25 @@
+if SHIELD_SLANT_LEFT
+
+config ZMK_KEYBOARD_NAME
+    default "Slant Left"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+config ZMK_SPLIT
+    default y
+
+endif
+
+if SHIELD_SLANT_RIGHT
+
+config ZMK_KEYBOARD_NAME
+    default "Slant Right"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default n
+
+config ZMK_SPLIT
+    default y
+
+endif

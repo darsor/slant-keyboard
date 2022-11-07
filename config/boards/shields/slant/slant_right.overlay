@@ -1,0 +1,5 @@
+#include "slant.dtsi"
+
+&default_transform {
+	col-offset = <18>;
+};
