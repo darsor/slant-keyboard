@@ -7,6 +7,27 @@
 #define NAV     2
 
 / {
+    behaviors {
+        // must double-tap to clear bluetooth profiles
+        btclr: bluetooth_clear {
+            compatible = "zmk,behavior-tap-dance";
+            label = "BT_CLEAR_DTAP"
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&none>, <&bt BT_CLR>;
+        };
+        
+        // Alt-Q is Alt-Tab
+        altq: alt_q_tab {
+            compatible = "zmk,behavior-mod-morph";
+            label = "ALT_Q_TAB";
+            #binding-cells = <0>;
+            bindings = <&kp Q>, <&kp TAB>;
+            mods = <(MOD_LALT)>;
+            keep-mods = <(MOD_LALT)>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -50,27 +71,6 @@
     &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4                        &trans    &kp HOME  &kp PG_DN &kp PG_UP &kp END
                                            &trans       &trans       &trans       &trans    &trans    &trans
             >;
-        };
-    };
-    
-    behaviors {
-        // must double-tap to clear bluetooth profiles
-        btclr: bluetooth_clear {
-            compatible = "zmk,behavior-tap-dance";
-            label = "BT_CLEAR_DTAP"
-            #binding-cells = <0>;
-            tapping-term-ms = <200>;
-            bindings = <&none>, <&bt BT_CLR>;
-        };
-        
-        // Alt-Q is Alt-Tab
-        altq: alt_q_tab {
-            compatible = "zmk,behavior-mod-morph";
-            label = "ALT_Q_TAB";
-            #binding-cells = <0>;
-            bindings = <&kp Q>, <&kp TAB>;
-            mods = <(MOD_LALT)>;
-            keep-mods = <(MOD_LALT)>;
         };
     };
 };
