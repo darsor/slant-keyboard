@@ -27,6 +27,15 @@
             keep-mods = <(MOD_LALT)>;
         };
     };
+    
+    combos {
+        compatible = "zmk,combos";
+        combo_capsword {
+            timeout-ms = <50>;
+            key-positions = <21 30>;
+            bindings = <&caps_word>;
+        };
+    };
 
     keymap {
         compatible = "zmk,keymap";
@@ -49,12 +58,12 @@
 // ----------------------------------------------------------------------------------------------------------------------------
 // |    !    |    @    |    #    |    $    |    %    |                      |    ^    |    &    |    *    |    (    |    )    |
 // |    1    |    2    |    3    |    4    |    5    |                      |    6    |    7    |    8    |    9    |    0    |
-// |         |         |         |         |         |                      |   -_    |   =+    |   [{    |   ]}    |   \|    |
+// |         |         |   `~    |   '"    |         |                      |   -_    |   =+    |   [{    |   ]}    |   \|    |
 //                               |         |         |         |  |         |         |         |
             bindings = <
     &kp EXCL &kp AT   &kp POUND &kp DLLR   &kp PRCNT                        &kp CARET &kp AMPS  &kp ASTRK &kp LPAR  &kp RPAR
     &kp N1   &kp N2   &kp N3    &kp N4     &kp N5                           &kp N6    &kp N7    &kp N8    &kp N9    &kp N0
-    &trans   &trans   &trans    &trans     &trans                           &kp MINUS &kp EQUAL &kp LBKT  &kp RBKT  &mt RSHFT BSLH
+    &trans   &trans   &kp GRAVE &kp APOS   &trans                           &kp MINUS &kp EQUAL &kp LBKT  &kp RBKT  &mt RSHFT BSLH
                                 &trans     &trans    &trans       &trans    &trans    &trans
             >;
         };
