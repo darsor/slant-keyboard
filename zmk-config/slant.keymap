@@ -32,7 +32,7 @@
         compatible = "zmk,combos";
         combo_capsword {
             timeout-ms = <50>;
-            key-positions = <21 30>;
+            key-positions = <20 29>;
             bindings = <&caps_word>;
         };
     };
