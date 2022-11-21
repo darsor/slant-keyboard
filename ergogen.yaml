@@ -1,0 +1,232 @@
+units:
+  choc_cutout: 13.80
+  gap: 0.2
+  screw_radius: 1.1
+  # size of key with gap on all sides
+  kx: cx + 2*gap
+  ky: cy + 2*gap
+  ring_stagger: 8
+  middle_stagger: 6
+  index_stagger: -3
+  inner_stagger: -2
+  corner: 1
+  # tan(5 degrees), where 5 is half the rotation of the thumb keys
+  thumb_tan: 0.087488664
+points:
+  zones:
+    matrix:
+      columns:
+        pinky.spread: cx
+        ring.stagger: ring_stagger
+        ring.spread: cx
+        middle.stagger: middle_stagger
+        middle.spread: cx
+        index.stagger: index_stagger
+        index.spread: cx
+        inner.stagger: inner_stagger
+        inner.spread: cx
+      rows:
+        bottom.padding: cy
+        home.padding: cy
+        top.padding: cy
+    thumb:
+      anchor:
+        ref: matrix_index_bottom
+        shift: [-6, -20]
+        rotate: 0
+      columns:
+        left:
+          key.name: thumb_left
+        mid:
+          spread: cx
+          rotate: -10
+          origin: [-0.5cx, -0.5cy]
+          key.name: thumb_mid
+        right:
+          spread: cx
+          rotate: -10
+          origin: [-cx/2, -cy/2]
+          key.name: thumb_right
+  key:
+    footprints:
+      choc:
+        type: choc
+        nets:
+          from: GND
+          to: =name
+        params:
+          hotswap: true
+          reverse: true
+          keycaps: true
+outlines:
+  exports:
+    keys:
+      - type: keys
+        side: left
+        size: [cx, cy]
+    screw_holes:
+      top_left:
+          type: circle
+          anchor:
+            ref: matrix_ring_home
+            shift: [-cx/2, -cy/2]
+          radius: screw_radius
+      top:
+        $extends: outlines.exports.screw_holes.top_left
+        anchor.ref: matrix_middle_top
+        anchor.shift: [-cx/2, -cy/2]
+      right:
+        $extends: outlines.exports.screw_holes.top_left
+        anchor.ref: matrix_inner_home
+        anchor.shift: [-cx/2, -1]
+      bottom:
+        $extends: outlines.exports.screw_holes.top_left
+        anchor.ref: thumb_left
+        anchor.shift: [cx/2+cy/2*thumb_tan, 0]
+    definitions:
+      $skip: true
+      # column containing the outline of all three keys, with padding and rounded corners
+      # top key centered at anchor ref
+      column:
+        type: rectangle
+        size: [kx, 2*cy + ky - ycutoff]
+        anchor.ref: matrix_pinky_top
+        anchor.shift: [-kx/2 + xshift, -(2*cy + ky - ycutoff) + ky/2]
+        corner: corner
+        # shift by x, cut off y amount from bottom
+        $params: [xshift, ycutoff]
+        $args: [0, 0]
+    thumb:
+      - type: polygon
+        points:
+          - ref: matrix_ring_bottom
+            shift: [0, ky/2]
+          - shift: [0, -ky]
+          - ref: matrix_ring_bottom
+            shift: [kx/2, -ky/2]
+          - ref: thumb_left
+            shift: [-kx/2, -ky/2]
+          - ref: thumb_left
+            # tan(10/2) = 0.087, where 10 is the angle between thumb keys
+            shift: [cx/2-thumb_tan*gap, -ky/2]
+          - ref: thumb_right
+            shift: [-cx/2+thumb_tan*gap, -ky/2]
+          - ref: thumb_right
+            shift: [kx/2, -ky/2]
+          - ref: thumb_right
+            shift: [kx/2, ky/2]
+          - ref: matrix_inner_bottom
+            shift: [kx/2, -ky/2]
+          - shift: [0, ky]
+    main_outline:
+      # column extensions fill in gaps between columns
+      pinky_col:
+        $extends: outlines.exports.definitions.column
+        anchor.ref: matrix_pinky_top
+      pinky_col_ext:
+        $extends: outlines.exports.main_outline.pinky_col
+        $args: [cx/2, ring_stagger]
+      ring_col:
+        $extends: outlines.exports.definitions.column
+        anchor.ref: matrix_ring_top
+      ring_col_ext:
+        $extends: outlines.exports.main_outline.ring_col
+        $args: [cx/2, middle_stagger]
+      middle_col:
+        $extends: outlines.exports.definitions.column
+        anchor.ref: matrix_middle_top
+      index_col:
+        $extends: outlines.exports.definitions.column
+        anchor.ref: matrix_index_top
+      index_col_ext:
+        $extends: outlines.exports.main_outline.index_col
+        $args: [-cx/2, -index_stagger]
+      inner_col:
+        $extends: outlines.exports.definitions.column
+        anchor.ref: matrix_inner_top
+      inner_col_ext:
+        $extends: outlines.exports.main_outline.inner_col
+        $args: [-cx/2, -inner_stagger]
+      thumb:
+        name: thumb
+        fillet: corner
+    pcb_outline:
+      - name: main_outline
+      - name: screw_holes
+        operation: subtract
+    top_plate:
+      - name: main_outline
+      - name: screw_holes
+        operation: subtract
+      - type: keys
+        side: left
+        size: choc_cutout
+        operation: subtract
+cases:
+  top_plate:
+    - type: outline
+      name: top_plate
+      extrude: 1.2
+pcbs:
+  pcb:
+    outlines.outline.outline: pcb_outline
+    footprints:
+      nicenano:
+        type: promicro
+        anchor:
+          - ref: matrix_inner_bottom
+            shift: [-cx/2+gap, 3.6]
+            rotate: 180
+        nets:
+          RAW: vbattp_sw
+          GND: GND
+          RST: RST
+          P21: matrix_inner_top
+          P20: matrix_inner_home
+          P19: matrix_index_top
+          P18: matrix_index_home
+          P15: matrix_middle_top
+          P14: matrix_ring_top
+          P16: matrix_middle_home
+          P10: matrix_ring_home
+          P1: thumb_right
+          P0: thumb_mid
+          P2: thumb_left
+          P3: matrix_inner_bottom
+          P4: matrix_index_bottom
+          P5: matrix_middle_bottom
+          P6: matrix_pinky_top
+          P7: matrix_pinky_home
+          P8: matrix_pinky_bottom
+          P9: matrix_ring_bottom
+      power_switch:
+        type: GW12RHH
+        anchor:
+          - ref: matrix_inner_top
+            shift: [kx/2, -5.2]
+            rotate: -90
+        nets:
+          from: vbattp
+          to: vbattp_sw
+      battery_plug:
+        type: jstph_3pin
+        anchor:
+          - ref: matrix_middle_bottom
+            shift: [0, -14]
+            rotate: 180
+        nets:
+          pos: vbattp
+          neg: GND
+      reset_button_top:
+        type: button
+        anchor: 
+          - ref: matrix_pinky_home
+            shift: [0, -6]
+        nets:
+          from: GND
+          to: RST
+        params.side: F
+      reset_button_bottom:
+        $extends: pcbs.pcb.footprints.reset_button_top
+        params.side: B
+

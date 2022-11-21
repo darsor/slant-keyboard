@@ -1,0 +1,7 @@
+{
+    "triggerTaskOnSave.tasks": {
+        "Ergogen": [
+            "ergogen.yaml"
+        ]
+    },
+}

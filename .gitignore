@@ -1,0 +1,5 @@
+.stversions/
+.stfolder/
+ergogen_outputs/
+kicad_project/kicad_project-backups
+./ergogen/
