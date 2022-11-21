@@ -11,7 +11,7 @@
         // must double-tap to clear bluetooth profiles
         btclr: bluetooth_clear {
             compatible = "zmk,behavior-tap-dance";
-            label = "BT_CLEAR_DTAP"
+            label = "BT_CLEAR_DTAP";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
             bindings = <&none>, <&bt BT_CLR>;
