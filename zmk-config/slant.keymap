@@ -52,7 +52,7 @@
     combos {
         compatible = "zmk,combos";
         combo_capsword {
-            timeout-ms = <150>;
+            timeout-ms = <100>;
             key-positions = <20 29>;
             bindings = <&caps_word>;
         };
