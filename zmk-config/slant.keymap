@@ -10,13 +10,13 @@
 
 / {
     behaviors {
-        // must double-tap to clear bluetooth profiles
-        btclr: bluetooth_clear {
+        // must double-tap for bluetooth functions
+        dbt: doubletap_bluetooth {
             compatible = "zmk,behavior-tap-dance";
-            label = "BT_CLEAR_DTAP";
+            label = "DOUBLETAP_BLUETOOTH";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
-            bindings = <&none>, <&bt BT_CLR>;
+            bindings = <&none>, <&bt>;
         };
         
         // shift-space is underscore
@@ -110,10 +110,10 @@
 // |   BT0   |   BT1   |   BT2   |   BT3   |   BT4   |                      |         |  Home   | Pg Down |  Pg Up  |   End   |
 //                               |         |         |         |  |         |         |         |
             bindings = <
-    &kp F1       &kp F2       &kp F3       &kp F4       &kp F5                         &kp F6    &kp F7    &kp F8    &kp F9    &kp F10
-    &kp F11      &kp F12      &trans       &out OUT_TOG &btclr                         &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans
-    &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4                   &kp HOME  &kp PG_DN &kp PG_UP &kp END   &trans
-                                           &trans       &trans       &trans  &trans    &trans    &trans
+    &kp F1        &kp F2        &kp F3        &kp F4        &kp F5                         &kp F6    &kp F7    &kp F8    &kp F9    &kp F10
+    &kp F11       &kp F12       &trans        &out OUT_TOG  &dbt BT_CLEAR                  &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans
+    &dbt BT_SEL 0 &dbt BT_SEL 1 &dbt BT_SEL 2 &dbt BT_SEL 3 &dbt BT_SEL 4                  &kp HOME  &kp PG_DN &kp PG_UP &kp END   &trans
+                                              &trans        &trans       &trans  &trans    &trans    &trans
             >;
         };
     };
