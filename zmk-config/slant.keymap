@@ -27,6 +27,7 @@
         DOUBLE_TAP_GUARD(bt3, &bt BT_SEL 3)
         DOUBLE_TAP_GUARD(bt4, &bt BT_SEL 4)
         DOUBLE_TAP_GUARD(btc, &bt BT_CLR)
+        DOUBLE_TAP_GUARD(otog, &out OUT_TOG)
         
         // shift-space is underscore
         spcunder: space_underscore {
@@ -119,10 +120,10 @@
 // |   BT0   |   BT1   |   BT2   |   BT3   |   BT4   |                      |         |  Home   | Pg Down |  Pg Up  |   End   |
 //                               |         |         |         |  |         |         |         |
             bindings = <
-    &kp F1   &kp F2    &kp F3    &kp F4        &kp F5                       &kp F6    &kp F7    &kp F8    &kp F9    &kp F10
-    &kp F11  &kp F12   &trans    &out OUT_TOG  &btc                         &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans
-    &bt0     &bt1      &bt2      &bt3          &bt4                         &kp HOME  &kp PG_DN &kp PG_UP &kp END   &trans
-                                 &trans        &trans   &trans    &trans    &trans    &trans
+    &kp F1   &kp F2    &kp F3    &kp F4    &kp F5                           &kp F6    &kp F7    &kp F8    &kp F9    &kp F10
+    &kp F11  &kp F12   &trans    &otog     &btc                             &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans
+    &bt0     &bt1      &bt2      &bt3      &bt4                             &kp HOME  &kp PG_DN &kp PG_UP &kp END   &trans
+                                 &trans    &trans    &trans       &trans    &trans    &trans
             >;
         };
     };
