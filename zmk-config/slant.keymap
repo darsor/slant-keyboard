@@ -3,6 +3,16 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/outputs.h>
 
+#define STRINGIFY(x) #x
+#define DOUBLE_TAP_GUARD(NAME, BINDING) \
+    NAME: NAME { \
+      compatible = "zmk,behavior-tap-dance"; \
+      label = STRINGIFY(NAME); \
+      #binding-cells = <0>; \
+      tapping-term-ms = <200>; \
+      bindings = <&none>, <BINDING>; \
+    }; \
+
 #define DEFAULT 0
 #define SYM     1
 #define NUM     2
@@ -11,21 +21,12 @@
 / {
     behaviors {
         // must double-tap for bluetooth functions
-        dbt: doubletap_bt {
-            compatible = "zmk,behavior-tap-dance";
-            label = "DOUBLETAP_BT";
-            #binding-cells = <1>;
-            tapping-term-ms = <200>;
-            bindings = <&none>, <&bt>;
-        };
-
-        dbtc: doubletap_bt_clear {
-            compatible = "zmk,behavior-tap-dance";
-            label = "DOUBLETAP_BT_CLEAR";
-            #binding-cells = <0>;
-            tapping-term-ms = <200>;
-            bindings = <&none>, <&bt BT_CLR>;
-        };
+        DOUBLE_TAP_GUARD(bt0, &bt BT_SEL 0)
+        DOUBLE_TAP_GUARD(bt1, &bt BT_SEL 1)
+        DOUBLE_TAP_GUARD(bt2, &bt BT_SEL 2)
+        DOUBLE_TAP_GUARD(bt3, &bt BT_SEL 3)
+        DOUBLE_TAP_GUARD(bt4, &bt BT_SEL 4)
+        DOUBLE_TAP_GUARD(btc, &bt BT_CLR)
         
         // shift-space is underscore
         spcunder: space_underscore {
@@ -118,10 +119,10 @@
 // |   BT0   |   BT1   |   BT2   |   BT3   |   BT4   |                      |         |  Home   | Pg Down |  Pg Up  |   End   |
 //                               |         |         |         |  |         |         |         |
             bindings = <
-    &kp F1         &kp F2         &kp F3         &kp F4         &kp F5                           &kp F6    &kp F7    &kp F8    &kp F9    &kp F10
-    &kp F11        &kp F12        &trans         &out OUT_TOG   &dbtc                            &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans
-    &dbt BT_SEL 0  &dbt BT_SEL 1  &dbt BT_SEL 2  &dbt BT_SEL 3  &dbt BT_SEL 4                    &kp HOME  &kp PG_DN &kp PG_UP &kp END   &trans
-                                                 &trans         &trans         &trans  &trans    &trans    &trans
+    &kp F1   &kp F2    &kp F3    &kp F4        &kp F5                       &kp F6    &kp F7    &kp F8    &kp F9    &kp F10
+    &kp F11  &kp F12   &trans    &out OUT_TOG  &btc                         &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans
+    &bt0     &bt1      &bt2      &bt3          &bt4                         &kp HOME  &kp PG_DN &kp PG_UP &kp END   &trans
+                                 &trans        &trans   &trans    & utrans  &trans    &trans
             >;
         };
     };
