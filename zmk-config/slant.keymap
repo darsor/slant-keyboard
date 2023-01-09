@@ -4,28 +4,29 @@
 #include <dt-bindings/zmk/outputs.h>
 
 #define STRINGIFY(x) #x
-#define DOUBLE_TAP_GUARD(NAME, BINDING) \
+#define DOUBLE_TAP(NAME, BINDING1, BINDING2) \
     NAME: NAME { \
       compatible = "zmk,behavior-tap-dance"; \
       label = STRINGIFY(NAME); \
       #binding-cells = <0>; \
       tapping-term-ms = <200>; \
-      bindings = <&none>, <BINDING>; \
+      bindings = <BINDING1>, <BINDING2>; \
     }; \
+#define DOUBLE_TAP_GUARD(NAME, BINDING) DOUBLE_TAP(NAME, &none, BINDING)
 
 #define DEFAULT 0
-#define SYM     1
+#define NAV     1
 #define NUM     2
-#define NAV     3
+#define SYM     3
 
 / {
     behaviors {
         // must double-tap for bluetooth functions
-        DOUBLE_TAP_GUARD(bt0, &bt BT_SEL 0)
+        DOUBLE_TAP(bt0, &kp LSHFT, &bt BT_SEL 0)
         DOUBLE_TAP_GUARD(bt1, &bt BT_SEL 1)
         DOUBLE_TAP_GUARD(bt2, &bt BT_SEL 2)
         DOUBLE_TAP_GUARD(bt3, &bt BT_SEL 3)
-        DOUBLE_TAP_GUARD(bt4, &bt BT_SEL 4)
+        DOUBLE_TAP(bt4, &kp LALT, &bt BT_SEL 4)
         DOUBLE_TAP_GUARD(btc, &bt BT_CLR)
         DOUBLE_TAP_GUARD(otog, &out OUT_TOG)
         
@@ -59,6 +60,14 @@
         };
     };
     
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        tri_layer {
+            if-layers = <NAV NUM>;
+            then-layer = <SYM>;
+        };
+    };
+
     combos {
         compatible = "zmk,combos";
         combo_capsword {
@@ -81,35 +90,7 @@
     &kp Q       &kp W     &kp E     &kp R         &kp T                                   &kp Y     &kp U     &kp I     &kp O     &kp P   
     &kp A       &kp S     &kp D     &kp F         &kp G                                   &kp H     &kp J     &kp K     &kp L     &kp SEMI
     &mt LSHFT Z &kp X     &kp C     &kp V         &hm LALT B                              &kp N     &kp M     &kp COMMA &kp DOT   &mt RSHFT FSLH
-                                    &mt LCTRL ESC &lt SYM TAB   &lt NUM DEL &lt NAV BSPC  &spcunder &mt LGUI RET
-            >;
-        };
-
-        symbol_layer {
-// ----------------------------------------------------------------------------------------------------------------------------
-// |    `    |    ~    |    '    |    "    |         |                      |    _    |    |    |    =    |    +    |    -    |
-// |    !    |    @    |    #    |    $    |    %    |                      |    ^    |    &    |    *    |    (    |    )    |
-// |         |         |         |         |         |                      |    {    |    }    |    [    |    ]    |    \    |
-//                               |         |         |         |  |         |         |         |
-            bindings = <
-    &kp GRAVE &kp TILDE &kp APOS  &kp DQT  &trans                           &kp UNDER &kp PIPE  &kp EQUAL &kp PLUS  &kp MINUS
-    &kp EXCL  &kp AT    &kp POUND &kp DLLR &kp PRCNT                        &kp CARET &kp AMPS  &kp ASTRK &kp LPAR  &kp RPAR
-    &mo NUM   &trans    &trans    &trans   &trans                           &kp LBRC  &kp RBRC  &kp LBKT  &kp RBKT  &lt NUM BSLH
-                                  &trans   &trans    &kp DEL      &kp BSPC  &trans    &kp RET
-            >;
-        };
-
-        number_layer {
-// ----------------------------------------------------------------------------------------------------------------------------
-// |         |         |         |         |         |                      |         |         |         |         |         |
-// |    1    |    2    |    3    |    4    |    5    |                      |    6    |    7    |    8    |    9    |    0    |
-// |         |         |         |         |         |                      |         |         |         |         |         |
-//                               |         |         |         |  |         |         |         |
-            bindings = <
-    &trans   &trans    &trans    &trans    &trans                           &trans    &trans    &trans    &trans    &trans
-    &kp N1   &kp N2    &kp N3    &kp N4    &kp N5                           &kp N6    &kp N7    &kp N8    &kp N9    &kp N0
-    &mo SYM  &trans    &trans    &trans    &trans                           &trans    &trans    &trans    &trans    &mo SYM
-                                  &trans   &trans    &kp DEL      &kp BSPC  &trans    &trans
+                                    &mt LCTRL ESC &kp TAB     &lt NUM DEL   &lt NAV BSPC  &spcunder &mt LGUI RET
             >;
         };
 
@@ -123,6 +104,36 @@
     &kp F1   &kp F2    &kp F3    &kp F4    &kp F5                           &kp F6    &kp F7    &kp F8    &kp F9    &kp F10
     &kp F11  &kp F12   &trans    &otog     &btc                             &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans
     &bt0     &bt1      &bt2      &bt3      &bt4                             &kp HOME  &kp PG_DN &kp PG_UP &kp END   &trans
+                                 &trans    &trans    &trans       &trans    &trans    &trans
+            >;
+        };
+
+        number_layer {
+// ----------------------------------------------------------------------------------------------------------------------------
+// |    `    |    ~    |    '    |    "    |         |                      |    _    |    |    |    =    |    +    |    -    |
+// |    1!   |    2@   |    3#   |    4$   |    5%   |                      |    6^   |    7&   |    8*   |    9(   |    0)   |
+// |         |         |         |         |         |                      |    {    |    }    |    [    |    ]    |    \    |
+//                               |         |         |         |  |         |         |         |
+            bindings = <
+    &kp GRAVE &kp TILDE &kp APOS  &kp DQT  &trans                           &kp UNDER &kp PIPE  &kp EQUAL &kp PLUS  &kp MINUS
+    &kp N1   &kp N2    &kp N3    &kp N4    &kp N5                           &kp N6    &kp N7    &kp N8    &kp N9    &kp N0
+    &kp LSHFT &trans    &trans    &trans   &trans                           &kp LBRC  &kp RBRC  &kp LBKT  &kp RBKT  &mt RSHFT BSLH
+                                  &trans   &trans    &trans       &trans    &trans    &trans
+            >;
+        };
+
+        // the symbol layer can only be activated by activating both the navigation and number layers
+        // so the number layer is always enabled, causing non-homerow presses to be handled by the number layer
+        symbol_layer {
+// ----------------------------------------------------------------------------------------------------------------------------
+// |    `    |    ~    |    '    |    "    |         |                      |    _    |    |    |    =    |    +    |    -    |
+// |    !    |    @    |    #    |    $    |    %    |                      |    ^    |    &    |    *    |    (    |    )    |
+// |         |         |         |         |         |                      |    {    |    }    |    [    |    ]    |    \    |
+//                               |         |         |         |  |         |         |         |
+            bindings = <
+    &trans   &trans    &trans    &trans    &trans                           &trans    &trans    &trans    &trans    &trans
+    &kp EXCL &kp AT    &kp POUND &kp DLLR  &kp PRCNT                        &kp CARET &kp AMPS  &kp ASTRK &kp LPAR  &kp RPAR
+    &trans   &trans    &trans    &trans    &trans                           &trans    &trans    &trans    &trans    &trans
                                  &trans    &trans    &trans       &trans    &trans    &trans
             >;
         };
