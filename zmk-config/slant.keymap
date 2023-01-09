@@ -19,6 +19,10 @@
 #define NUM     2
 #define SYM     3
 
+// this modifies all layer taps so that a quick tap-hold action
+// will repeat the tap instead of triggering the layer
+&lt { quick_tap_ms = <200>; };
+
 / {
     behaviors {
         // must double-tap for bluetooth functions
