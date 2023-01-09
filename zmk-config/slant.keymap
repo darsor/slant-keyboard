@@ -14,7 +14,7 @@
         dbt: doubletap_bt {
             compatible = "zmk,behavior-tap-dance";
             label = "DOUBLETAP_BT";
-            #binding-cells = <2>;
+            #binding-cells = <1>;
             tapping-term-ms = <200>;
             bindings = <&none>, <&bt>;
         };
