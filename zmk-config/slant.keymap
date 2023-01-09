@@ -11,7 +11,7 @@
       #binding-cells = <0>; \
       tapping-term-ms = <200>; \
       bindings = <BINDING1>, <BINDING2>; \
-    }; \
+    };
 #define DOUBLE_TAP_GUARD(NAME, BINDING) DOUBLE_TAP(NAME, &none, BINDING)
 
 #define DEFAULT 0
