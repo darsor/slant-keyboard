@@ -122,7 +122,7 @@
     &kp F1   &kp F2    &kp F3    &kp F4        &kp F5                       &kp F6    &kp F7    &kp F8    &kp F9    &kp F10
     &kp F11  &kp F12   &trans    &out OUT_TOG  &btc                         &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans
     &bt0     &bt1      &bt2      &bt3          &bt4                         &kp HOME  &kp PG_DN &kp PG_UP &kp END   &trans
-                                 &trans        &trans   &trans    & utrans  &trans    &trans
+                                 &trans        &trans   &trans    &trans    &trans    &trans
             >;
         };
     };
