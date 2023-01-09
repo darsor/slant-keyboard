@@ -11,12 +11,20 @@
 / {
     behaviors {
         // must double-tap for bluetooth functions
-        dbt: doubletap_bluetooth {
+        dbts: doubletap_bt_sel {
             compatible = "zmk,behavior-tap-dance";
-            label = "DOUBLETAP_BLUETOOTH";
+            label = "DOUBLETAP_BT_SEL";
+            #binding-cells = <1>;
+            tapping-term-ms = <200>;
+            bindings = <&none>, <&bt BT_SEL>;
+        };
+
+        dbtc: doubletap_bt_clear {
+            compatible = "zmk,behavior-tap-dance";
+            label = "DOUBLETAP_BT_CLEAR";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
-            bindings = <&none>, <&bt>;
+            bindings = <&none>, <&bt BT_CLR>;
         };
         
         // shift-space is underscore
@@ -110,10 +118,10 @@
 // |   BT0   |   BT1   |   BT2   |   BT3   |   BT4   |                      |         |  Home   | Pg Down |  Pg Up  |   End   |
 //                               |         |         |         |  |         |         |         |
             bindings = <
-    &kp F1        &kp F2        &kp F3        &kp F4        &kp F5                         &kp F6    &kp F7    &kp F8    &kp F9    &kp F10
-    &kp F11       &kp F12       &trans        &out OUT_TOG  &dbt BT_CLEAR                  &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans
-    &dbt BT_SEL 0 &dbt BT_SEL 1 &dbt BT_SEL 2 &dbt BT_SEL 3 &dbt BT_SEL 4                  &kp HOME  &kp PG_DN &kp PG_UP &kp END   &trans
-                                              &trans        &trans       &trans  &trans    &trans    &trans
+    &kp F1   &kp F2    &kp F3    &kp F4        &kp F5                       &kp F6    &kp F7    &kp F8    &kp F9    &kp F10
+    &kp F11  &kp F12   &trans    &out OUT_TOG  &dbtc                        &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans
+    &dbts 0  &dbts 1   &dbts 2   &dbts 3       &dbts 4                      &kp HOME  &kp PG_DN &kp PG_UP &kp END   &trans
+                                 &trans        &trans     &trans  &trans    &trans    &trans
             >;
         };
     };
