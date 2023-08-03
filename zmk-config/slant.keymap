@@ -40,7 +40,7 @@
             label = "SPACE_UNDERSCORE";
             #binding-cells = <0>;
             bindings = <&kp SPACE>, <&kp UNDER>;
-            mods = <(LSHIFT|RSHIFT)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
         // mod tap that holds the tap key if double-tapped
