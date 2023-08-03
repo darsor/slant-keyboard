@@ -40,7 +40,18 @@
             label = "SPACE_UNDERSCORE";
             #binding-cells = <0>;
             bindings = <&kp SPACE>, <&kp UNDER>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
+            mods = <(LSHIFT|RSHIFT)>;
+        };
+
+        // mod tap that holds the tap key if double-tapped
+        hmt: held_mod_tap {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HELD_MOD_TAP";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            quick_tap_ms = <200>;
+            bindings = <&kp>, <&kp>;
         };
         
         hm: homerow_mods {
@@ -94,7 +105,7 @@
     &kp Q       &kp W     &kp E     &kp R         &kp T                                   &kp Y     &kp U     &kp I     &kp O     &kp P   
     &kp A       &kp S     &kp D     &kp F         &kp G                                   &kp H     &kp J     &kp K     &kp L     &kp SEMI
     &mt LSHFT Z &kp X     &kp C     &kp V         &hm LALT B                              &kp N     &kp M     &kp COMMA &kp DOT   &mt RSHFT FSLH
-                                    &mt LCTRL ESC &kp TAB     &lt NUM DEL   &lt NAV BSPC  &spcunder &mt LGUI RET
+                                    &mt LCTRL ESC &kp TAB     &lt NUM DEL   &lt NAV BSPC  &spcunder &hmt LGUI RET
             >;
         };
 
